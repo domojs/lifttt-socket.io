@@ -1,4 +1,6 @@
-var io=$('socket.io-client').connect('http://home.dragon-angel.fr');
+var settings=require('./settings.json');
+
+var io=$('socket.io-client').connect(settings.url);
 
 module.exports={
     name:"socket.io", 
@@ -9,7 +11,10 @@ module.exports={
             fields:[{name:"eventName", displayName:"The name of the event to watch"}],
             when:function(fields,callback){
                 io.on(fields.eventName, function(message){
-                    callback({message:message});
+                    if(typeof(message=='string'))
+                        callback($.extend({message:message}, arguments[1]));
+                    else
+                        callback(message);
                 });
                 
                 process.on('exit', function(){
