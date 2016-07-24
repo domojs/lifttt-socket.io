@@ -12,7 +12,7 @@ module.exports={
             when:function(fields,callback){
                 io.on(fields.eventName, function(message){
                     if(typeof(message)=='string')
-                        callback($.extend({message:message}, arguments[1]));
+                        callback($.extend({text:message}, arguments[1]));
                     else
                         callback(message);
                 });
